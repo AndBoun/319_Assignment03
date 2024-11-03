@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function ShowProducts() {
+function ShowProducts({ dataF, setDataF, viewer, setViewer }) {
   const [catalog, setCatalog] = useState([]);
   const [cart, setCart] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
 
+  const handleSubmit = (data) => {
+    data.preventDefault();
+    setViewer(1); // Move to Payment view
+  }
   useEffect(() => {
     const fetchData = async () => {
-      try {
         const response = await fetch("/products.json");
         const data = await response.json();
-        setCatalog(data.Products); // Ensure this matches the structure of your JSON
+        setCatalog(data.Products);
         console.log(data);
-      } catch (error) {
-        console.error("Error fetching catalog data:", error);
-      }
     };
     fetchData();
   }, []);
@@ -24,7 +25,7 @@ function ShowProducts() {
     const total = () => {
       let totalAmt = 0;
       for (let i = 0; i < cart.length; i++) {
-        totalAmt += cart[i].price;
+        totalAmt += cart[i].price * cart[i].quantity;
       }
       setCartTotal(totalAmt);
       console.log(totalAmt);
@@ -33,43 +34,61 @@ function ShowProducts() {
   }, [cart]);
 
   const addToCart = (el) => {
-    setCart([...cart, el]);
+    console.log("Adding to cart:", el);
+    setCart((prevCart) => {
+      const itemIndex = prevCart.findIndex((item) => item.id === el.id);
+      if (itemIndex !== -1) {
+        const updatedCart = [...prevCart];
+        updatedCart[itemIndex] = {
+          ...updatedCart[itemIndex],
+          quantity: updatedCart[itemIndex].quantity + 1,
+        };
+        return updatedCart;
+      } else {
+        return [...prevCart, { ...el, quantity: 1 }];
+      }
+    });
   };
 
   const removeFromCart = (el) => {
-    let itemFound = false;
-    const updatedCart = cart.filter((cartItem) => {
-      if (cartItem.id === el.id && !itemFound) {
-        itemFound = true;
-        return false;
+    console.log("Removing from cart:", el);
+    setCart((prevCart) => {
+      const itemIndex = prevCart.findIndex((item) => item.id === el.id);
+      if (itemIndex !== -1) {
+        const updatedCart = [...prevCart];
+        if (updatedCart[itemIndex].quantity > 1) {
+          updatedCart[itemIndex] = {
+            ...updatedCart[itemIndex],
+            quantity: updatedCart[itemIndex].quantity - 1,
+          };
+        } else {
+          updatedCart.splice(itemIndex, 1);
+        }
+        return updatedCart;
       }
-      return true;
+      return prevCart;
     });
-    if (itemFound) {
-      setCart(updatedCart);
-    }
   };
 
   const howManyofThis = (id) => {
-    let hmot = cart.filter((cartItem) => cartItem.id === id);
-    return hmot.length;
+    const item = cart.find((cartItem) => cartItem.id === id);
+    return item ? item.quantity : 0;
   };
 
   const listItems = catalog.map((el) => (
-    <div className="row border-top border-bottom" key={el.id}>
-      <div className="row main align-items-center">
-        <div className="col-2">
-          <img className="img-fluid" src={el.image} />
-        </div>
-        <div className="col">
-          <div className="row text-muted">{el.item}</div>
-        </div>
-        <div className="col">
-          <button type="button" className="btn btn-light" onClick={() => removeFromCart(el)}>-</button> {" "}
-          <button type="button" className="btn btn-light" onClick={() => addToCart(el)}>+</button>
-        </div>
-        <div className="col">
-          ${el.price} <span className="close">&#10005;</span>{howManyofThis(el.id)}
+    <div className="col-md-6 col-lg-4 mb-4" key={el.id}>
+      <div className="swiper-slide">
+        <div className="product-item image-zoom-effect link-effect">
+          <div className="image-holder position-relative">
+            <img src={el.image} alt={el.attribute} className="product-image img-fluid" />
+          </div>
+          <div className="product-content">
+            <h5 className="element-title text-uppercase fs-5 mt-3">{el.item}</h5>
+            <p>{el.productDescription}</p>
+            <button className="text-decoration-none" onClick={() => addToCart(el)}>
+              <span>Add to cart - ${el.price}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -77,14 +96,25 @@ function ShowProducts() {
 
   return (
     <div>
-      <div className="card">
+      <section className="categories overflow-hidden">
+        <div className="container">
+          <div className="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
+            <h4 className="text-uppercase">CROC SHOPPING</h4>
+          </div>
+          <div className="row">
+            {listItems}
+          </div>
+        </div>
+      </section>
+    <form onSubmit={handleSubmit}>
+      <div className="card mt-5">
         <div className="row">
           <div className="col-md-8 cart">
             <div className="title">
               <div className="row">
                 <div className="col">
                   <h4>
-                    <b>CROC Shopping</b>
+                    <b>Your Cart</b>
                   </h4>
                 </div>
                 <div className="col align-self-center text-right text-muted">
@@ -94,15 +124,30 @@ function ShowProducts() {
                 </div>
                 <div className="col align-self-center text-right text-muted">
                   <h4>
-                    <b>Order total ${cartTotal}</b>
+                    <b>Order total ${cartTotal.toFixed(2)}</b>
                   </h4>
                 </div>
               </div>
             </div>
-            <div>{listItems}</div>
+            <div className="row">
+              {cart.map((el, index) => (
+                <div key={index} className="col-12">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <img className="img-fluid" src={el.image} width={50} alt={el.item} />
+                    <span>{el.item}</span>
+                    <span>${(el.price * el.quantity).toFixed(2)}</span>
+                    <button className="btn btn-light" onClick={() => removeFromCart(el)}>-</button>
+                    <span>{el.quantity}</span>
+                    <button className="btn btn-light" onClick={() => addToCart(el)}>+</button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+      <button type ="submit" className="btn btn-primary"> Checkout </button>
+      </form>
     </div>
   );
 }
