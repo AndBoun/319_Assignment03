@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Shop from "./Shopping"
 import Payment from "./MyPayment";
 import Summary from "./MySummary";
 import Browse from "./MyBrowse";
