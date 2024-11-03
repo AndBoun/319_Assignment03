@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function ShowProducts({ dataF, setDataF, viewer, setViewer }) {
+function ShowProducts({ dataF, setDataF, viewer, setViewer, cart, setCart, cartTotal, setCartTotal }) {
   const [catalog, setCatalog] = useState([]);
-  const [cart, setCart] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0);
 
-  const handleSubmit = (data) => {
-    data.preventDefault();
-    setViewer(1); // Move to Payment view
-  }
   useEffect(() => {
     const fetchData = async () => {
+      try {
         const response = await fetch("/products.json");
         const data = await response.json();
-        setCatalog(data.Products);
+        setCatalog(data.Products); // Ensure this matches the structure of your JSON
         console.log(data);
+      } catch (error) {
+        console.error("Error fetching catalog data:", error);
+      }
     };
     fetchData();
   }, []);
@@ -70,6 +68,7 @@ function ShowProducts({ dataF, setDataF, viewer, setViewer }) {
   };
 
 
+
   const listItems = catalog.map((el) => (
     <div className="col-md-6 col-lg-4 mb-4" key={el.id}>
       <div className="swiper-slide">
@@ -89,19 +88,22 @@ function ShowProducts({ dataF, setDataF, viewer, setViewer }) {
     </div>
   ));
 
+  const handleCheckout = () => {
+    setViewer(1); // Move to Payment view
+  };
+
   return (
     <div>
       <section className="categories overflow-hidden">
         <div className="container">
           <div className="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-            <h4 className="text-uppercase">CROC SHOPPING</h4>
+            <h4 className="text-uppercase">CROC Shopping</h4>
           </div>
           <div className="row">
             {listItems}
           </div>
         </div>
       </section>
-    <form onSubmit={handleSubmit}>
       <div className="card mt-5">
         <div className="row">
           <div className="col-md-8 cart">
@@ -138,11 +140,10 @@ function ShowProducts({ dataF, setDataF, viewer, setViewer }) {
                 </div>
               ))}
             </div>
+            <button type="button" className="btn btn-primary mt-3" onClick={handleCheckout}>Checkout</button>
           </div>
         </div>
       </div>
-      <button type ="submit" className="btn btn-primary"> Checkout </button>
-      </form>
     </div>
   );
 }
