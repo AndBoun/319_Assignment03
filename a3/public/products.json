@@ -7,7 +7,8 @@
             "image": "images/croc1.png",
             "attribute": "Front view of CROC HOOD",
             "productDescription": "A stylish crocodile dons a vibrant, oversized hoodie with bold stripes of color. Perfect for adding some personality to your casual look, this hoodie embodies playful streetwear vibes with its comfortable and relaxed fit.",
-            "rating": {"rate": 4.5, "count": 120}
+            "rating": {"rate": 4.5, "count": 120},
+            "category": "outerwear"
         },
         {
             "id": 2,
@@ -16,7 +17,8 @@
             "image": "images/rat1.jpeg",
             "attribute": "Front view of Baggy Shirt",
             "productDescription": "A fashionable rat rocks a loose-fitting plaid shirt, giving off a relaxed, laid-back aesthetic. Paired with baggy jeans and sneakers, this look is ideal for those who embrace effortlessly cool, urban fashion.",
-            "rating": {"rate": 4.0, "count": 85}
+            "rating": {"rate": 4.0, "count": 85},
+            "category": "outerwear"
         },
         {
             "id": 3,
@@ -25,7 +27,8 @@
             "image": "images/rat2.jpeg",
             "attribute": "Front view of Cotton Coat",
             "productDescription": "This rat sports a cozy, checkered cotton coat, blending functionality and style. The outfit is accessorized with a branded cap and casual sneakers, perfect for cool weather outings with a streetwear edge.",
-            "rating": {"rate": 4.2, "count": 95}
+            "rating": {"rate": 4.2, "count": 95},
+            "category": "outerwear"
         },
         {
             "id": 4,
@@ -34,7 +37,8 @@
             "image": "images/crewneck1.jpeg",
             "attribute": "Front view of Handmade crop sweater",
             "productDescription": "A trendsetting crocodile shows off a handmade cropped sweater with a bold logo. The design delivers a high-fashion, casual vibe, pairing well with sunglasses and a stylish cap for a cool, effortless look.",
-            "rating": {"rate": 4.7, "count": 110}
+            "rating": {"rate": 4.7, "count": 110},
+            "category": "outerwear"
         },
         {
             "id": 5,
@@ -43,7 +47,8 @@
             "image": "images/crewneck2.jpeg",
             "attribute": "Front view of Korean flag crewneck",
             "productDescription": "This crocodile flaunts a crewneck sweater adorned with a Korean flag design. Paired with brown loafers and a retro aesthetic, the ensemble merges cultural pride with a laid-back, fashionable silhouette.",
-            "rating": {"rate": 4.3, "count": 75}
+            "rating": {"rate": 4.3, "count": 75},
+            "category": "outerwear"
         },
         {
             "id": 6,
@@ -52,7 +57,8 @@
             "image": "images/rat3.jpeg",
             "attribute": "Front view of Plaid Flannel",
             "productDescription": "This rat looks effortlessly cool in a plaid flannel shirt, layered over a casual tee and paired with relaxed denim jeans. With accessories like a cap and trendy sneakers, this outfit exudes an easygoing, grunge-inspired style.",
-            "rating": {"rate": 4.1, "count": 90}
+            "rating": {"rate": 4.1, "count": 90},
+            "category": "outerwear"
         },
         {
             "id": 7,
@@ -61,7 +67,8 @@
             "image": "images/pants1.jpeg",
             "attribute": "Front view of Classic Fit Pants",
             "productDescription": "Comfortable and versatile classic fit pants suitable for any occasion.",
-            "rating": {"rate": 4.0, "count": 60}
+            "rating": {"rate": 4.0, "count": 60},
+            "category": "pants"
         },
         {
             "id": 8,
@@ -70,7 +77,8 @@
             "image": "images/pants2.jpeg",
             "attribute": "Front view of Slim Fit Pants",
             "productDescription": "Stylish slim fit pants that offer a modern and sleek look.",
-            "rating": {"rate": 4.4, "count": 70}
+            "rating": {"rate": 4.4, "count": 70},
+            "category": "pants"
         },
         {
             "id": 9,
@@ -79,7 +87,8 @@
             "image": "images/pants3.jpeg",
             "attribute": "Front view of Relaxed Fit Pants",
             "productDescription": "Relaxed fit pants that provide maximum comfort and ease of movement.",
-            "rating": {"rate": 4.3, "count": 65}
+            "rating": {"rate": 4.3, "count": 65},
+            "category": "pants"
         },
         {
             "id": 10,
@@ -88,7 +97,8 @@
             "image": "images/pants4.jpeg",
             "attribute": "Front view of Skinny Fit Pants",
             "productDescription": "Trendy skinny fit pants that hug your body for a flattering silhouette.",
-            "rating": {"rate": 4.6, "count": 80}
+            "rating": {"rate": 4.6, "count": 80},
+            "category": "pants"
         },
         {
             "id": 11,
@@ -97,7 +107,8 @@
             "image": "images/pants5.jpeg",
             "attribute": "Front view of Straight Fit Pants",
             "productDescription": "Classic straight fit pants that offer a timeless and clean look.",
-            "rating": {"rate": 4.2, "count": 55}
+            "rating": {"rate": 4.2, "count": 55},
+            "category": "pants"
         },
         {
             "id": 12,
@@ -106,7 +117,8 @@
             "image": "images/pants6.jpeg",
             "attribute": "Front view of Bootcut Fit Pants",
             "productDescription": "Bootcut fit pants that are perfect for pairing with boots for a stylish look.",
-            "rating": {"rate": 4.5, "count": 50}
+            "rating": {"rate": 4.5, "count": 50},
+            "category": "pants"
         }
     ],
     "mainTitle" : "Products"

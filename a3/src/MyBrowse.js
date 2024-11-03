@@ -3,13 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ShowProducts({ dataF, setDataF, viewer, setViewer, cart, setCart, cartTotal, setCartTotal }) {
   const [catalog, setCatalog] = useState([]);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCatalog, setFilteredCatalog] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("/products.json");
         const data = await response.json();
-        setCatalog(data.Products); // Ensure this matches the structure of your JSON
+        setCatalog(data.Products);// Ensure this matches the structure of your JSON
+        setFilteredCatalog(data.Products);
         console.log(data);
       } catch (error) {
         console.error("Error fetching catalog data:", error);
@@ -67,7 +69,21 @@ function ShowProducts({ dataF, setDataF, viewer, setViewer, cart, setCart, cartT
     });
   };
 
-  const listItems = catalog.map((el) => (
+  const handleSearch = (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+    if (term === '') {
+      setFilteredCatalog(catalog);
+    } else {
+      const filtered = catalog.filter((item) => 
+        item.item.toLowerCase().includes(term.toLowerCase()) || 
+        item.category.toLowerCase().includes(term.toLowerCase())
+      );
+      setFilteredCatalog(filtered);
+    }
+  };
+
+  const listItems = filteredCatalog.map((el) => (
     <div className="col-md-6 col-lg-4 mb-4" key={el.id}>
       <div className="swiper-slide">
         <div className="product-item image-zoom-effect link-effect">
@@ -95,6 +111,21 @@ function ShowProducts({ dataF, setDataF, viewer, setViewer, cart, setCart, cartT
 
   return (
     <div>
+    <header className="bg-light p-3 mb-4">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search by item or category"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+        </div>
+      </div>
+    </header>
       <section className="categories overflow-hidden">
         <div className="container">
           <div className="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
