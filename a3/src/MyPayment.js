@@ -1,23 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Payment = ({ dataF, setDataF, viewer, setViewer }) => {
-    const [validated, setValidated] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const form = e.currentTarget;
-        
-        if (form.checkValidity() === false) {
-            e.stopPropagation();
-        } else {
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            setDataF(prev => ({ ...prev, ...data }));
-            setViewer(2);
-        }
-        
-        setValidated(true);
+    const onSubmit = (data) => {
+        setDataF(prev => ({ ...prev, ...data }));
+        setViewer(2);
     };
 
     return (
@@ -27,139 +17,134 @@ const Payment = ({ dataF, setDataF, viewer, setViewer }) => {
                     <h2 className="mb-0">Payment Information</h2>
                 </div>
                 <div className="card-body">
-                    <form noValidate className={validated ? 'was-validated' : ''} onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="row mb-4">
                             <h5 className="mb-3">Personal Information</h5>
                             <div className="col-md-6 mb-3">
-                                <label htmlFor="name" className="form-label">Full Name*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">Full Name*</label>
+                                <input 
+                                    {...register("name", { 
+                                        required: "Full name is required",
+                                        minLength: { value: 2, message: "Minimum length is 2 characters" }
+                                    })} 
                                     className="form-control"
-                                    name="name"
-                                    required
-                                    minLength="2"
+                                    placeholder="Enter your full name"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter your full name (minimum 2 characters)
-                                </div>
+                                {errors.name && <p className="text-danger">{errors.name.message}</p>}
                             </div>
+
                             <div className="col-md-6 mb-3">
-                                <label htmlFor="email" className="form-label">Email*</label>
-                                <input
-                                    type="email"
+                                <label className="form-label">Email*</label>
+                                <input 
+                                    {...register("email", { 
+                                        required: "Email is required",
+                                        pattern: { 
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: "Invalid email address"
+                                        }
+                                    })} 
                                     className="form-control"
-                                    name="email"
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                    required
+                                    placeholder="Enter your email"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter a valid email address
-                                </div>
+                                {errors.email && <p className="text-danger">{errors.email.message}</p>}
                             </div>
+
                             <div className="col-12 mb-3">
-                                <label htmlFor="address" className="form-label">Address*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">Address*</label>
+                                <input 
+                                    {...register("address", { required: "Address is required" })} 
                                     className="form-control"
-                                    name="address"
-                                    required
+                                    placeholder="Enter your address"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter your address
-                                </div>
+                                {errors.address && <p className="text-danger">{errors.address.message}</p>}
                             </div>
+
                             <div className="col-md-4 mb-3">
-                                <label htmlFor="city" className="form-label">City*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">City*</label>
+                                <input 
+                                    {...register("city", { required: "City is required" })} 
                                     className="form-control"
-                                    name="city"
-                                    required
+                                    placeholder="Enter your city"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter your city
-                                </div>
+                                {errors.city && <p className="text-danger">{errors.city.message}</p>}
                             </div>
+
                             <div className="col-md-4 mb-3">
-                                <label htmlFor="state" className="form-label">State*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">State*</label>
+                                <input 
+                                    {...register("state", { required: "State is required" })} 
                                     className="form-control"
-                                    name="state"
-                                    required
+                                    placeholder="Enter your state"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter your state
-                                </div>
+                                {errors.state && <p className="text-danger">{errors.state.message}</p>}
                             </div>
+
                             <div className="col-md-4 mb-3">
-                                <label htmlFor="zip" className="form-label">ZIP Code*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">ZIP Code*</label>
+                                <input 
+                                    {...register("zip", { 
+                                        required: "ZIP code is required",
+                                        pattern: { value: /^[0-9]{5}$/, message: "Invalid ZIP code" }
+                                    })} 
                                     className="form-control"
-                                    name="zip"
-                                    pattern="[0-9]{5}"
-                                    required
+                                    placeholder="Enter ZIP code"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter a valid 5-digit ZIP code
-                                </div>
+                                {errors.zip && <p className="text-danger">{errors.zip.message}</p>}
                             </div>
                         </div>
 
                         <div className="row">
                             <h5 className="mb-3">Card Details</h5>
                             <div className="col-md-6 mb-3">
-                                <label htmlFor="cardNumber" className="form-label">Card Number*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">Card Number*</label>
+                                <input 
+                                    {...register("cardNumber", { 
+                                        required: "Card number is required",
+                                        pattern: { value: /^[0-9]{16}$/, message: "Invalid card number" }
+                                    })} 
                                     className="form-control"
-                                    name="cardNumber"
-                                    pattern="[0-9]{16}"
-                                    required
+                                    placeholder="Enter card number"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter a valid 16-digit card number
-                                </div>
+                                {errors.cardNumber && <p className="text-danger">{errors.cardNumber.message}</p>}
                             </div>
+
                             <div className="col-md-6 mb-3">
-                                <label htmlFor="cardName" className="form-label">Card Name*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">Card Name*</label>
+                                <input 
+                                    {...register("cardName", { required: "Card name is required" })} 
                                     className="form-control"
-                                    name="cardName"
-                                    required
+                                    placeholder="Enter name on card"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter the name on your card
-                                </div>
+                                {errors.cardName && <p className="text-danger">{errors.cardName.message}</p>}
                             </div>
+
                             <div className="col-md-4 mb-3">
-                                <label htmlFor="expiryDate" className="form-label">Expiry Date*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">Expiry Date*</label>
+                                <input 
+                                    {...register("expiryDate", { 
+                                        required: "Expiry date is required",
+                                        pattern: { 
+                                            value: /(0[1-9]|1[0-2])\/([0-9]{2})/,
+                                            message: "Invalid expiry date (MM/YY)"
+                                        }
+                                    })} 
                                     className="form-control"
-                                    name="expiryDate"
-                                    pattern="(0[1-9]|1[0-2])\/([0-9]{2})"
                                     placeholder="MM/YY"
-                                    required
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter a valid expiry date (MM/YY)
-                                </div>
+                                {errors.expiryDate && <p className="text-danger">{errors.expiryDate.message}</p>}
                             </div>
+
                             <div className="col-md-4 mb-3">
-                                <label htmlFor="cvv" className="form-label">CVV*</label>
-                                <input
-                                    type="text"
+                                <label className="form-label">CVV*</label>
+                                <input 
+                                    {...register("cvv", { 
+                                        required: "CVV is required",
+                                        pattern: { value: /^[0-9]{3,4}$/, message: "Invalid CVV" }
+                                    })} 
                                     className="form-control"
-                                    name="cvv"
-                                    pattern="[0-9]{3,4}"
-                                    required
+                                    placeholder="Enter CVV"
                                 />
-                                <div className="invalid-feedback">
-                                    Please enter a valid CVV (3-4 digits)
-                                </div>
+                                {errors.cvv && <p className="text-danger">{errors.cvv.message}</p>}
                             </div>
                         </div>
                         
