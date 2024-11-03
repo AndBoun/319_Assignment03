@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ShowProducts({ dataF, setDataF, viewer, setViewer }) {
@@ -70,10 +69,6 @@ function ShowProducts({ dataF, setDataF, viewer, setViewer }) {
     });
   };
 
-  const howManyofThis = (id) => {
-    const item = cart.find((cartItem) => cartItem.id === id);
-    return item ? item.quantity : 0;
-  };
 
   const listItems = catalog.map((el) => (
     <div className="col-md-6 col-lg-4 mb-4" key={el.id}>
