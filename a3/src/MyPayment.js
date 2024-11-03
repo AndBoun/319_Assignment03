@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Payment = ({ dataF, setDataF, viewer, setViewer }) => {
+const Payment = ({ dataF, setDataF, viewer, setViewer, cart, cartTotal }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
@@ -10,13 +10,68 @@ const Payment = ({ dataF, setDataF, viewer, setViewer }) => {
         setViewer(2);
     };
 
+    const handleBack = () => {
+        setViewer(0);
+    };
+
     return (
         <div className="container mt-5">
-            <div className="card shadow">
-                <div className="card-header bg-primary text-white">
-                    <h2 className="mb-0">Payment Information</h2>
+            {/* Cart Summary Section */}
+            <div className="card shadow mb-4">
+                <div className="card-header bg-dark text-white">
+                    <h2 className="mb-0">Cart Summary</h2>
                 </div>
                 <div className="card-body">
+                    <div className="table-responsive">
+                        <table className="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cart.map((item, index) => (
+                                    <tr key={index}>
+                                        <td style={{ width: '100px' }}>
+                                            <img 
+                                                src={item.image} 
+                                                alt={item.item} 
+                                                className="img-thumbnail"
+                                                style={{ maxWidth: '80px' }}
+                                            />
+                                        </td>
+                                        <td>{item.item}</td>
+                                        <td>{item.quantity}</td>
+                                        <td>${item.price.toFixed(2)}</td>
+                                        <td>${(item.price * item.quantity).toFixed(2)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan="4" className="text-end fw-bold">Subtotal:</td>
+                                    <td>${cartTotal.toFixed(2)}</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan="4" className="text-end fw-bold">Total:</td>
+                                    <td className="fw-bold">${cartTotal.toFixed(2)}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            {/* Existing Payment Form */}
+            <div className="card shadow">
+                <div className="card-header bg-dark text-white">
+                    <h2 className="mb-0">Payment Information</h2>
+                </div>
+                <div className="card-body pb-4">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="row mb-4">
                             <h5 className="mb-3">Personal Information</h5>
@@ -148,8 +203,20 @@ const Payment = ({ dataF, setDataF, viewer, setViewer }) => {
                             </div>
                         </div>
                         
-                        <div className="d-grid gap-2 col-6 mx-auto mt-4">
-                            <button type="submit" className="btn btn-primary btn-lg">Submit Payment</button>
+                        <div className="d-flex justify-content-center gap-3 mt-4">
+                            <button 
+                                type="button" 
+                                className="btn btn-outline-dark btn-lg px-4"
+                                onClick={handleBack}
+                            >
+                                Back to Browse
+                            </button>
+                            <button 
+                                type="submit" 
+                                className="btn btn-dark btn-lg px-4"
+                            >
+                                Submit Payment
+                            </button>
                         </div>
                     </form>
                 </div>
