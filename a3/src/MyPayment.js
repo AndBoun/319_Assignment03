@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Payment = ({ dataF, setDataF, viewer, setViewer, cart, cartTotal }) => {
+const Payment = ({ customerInfo, setCustomerInfo, viewer, setViewer, cart, cartTotal }) => {
   const {
     register,
     handleSubmit,
@@ -10,7 +10,7 @@ const Payment = ({ dataF, setDataF, viewer, setViewer, cart, cartTotal }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setDataF((prev) => ({ ...prev, ...data }));
+    setCustomerInfo((prev) => ({ ...prev, ...data }));
     setViewer(2);
   };
 

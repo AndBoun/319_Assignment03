@@ -2,8 +2,8 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const MySummary = ({
-  dataF,
-  setDataF,
+  customerInfo,
+  setCustomerInfo,
   viewer,
   setViewer,
   cart,
@@ -13,7 +13,7 @@ const MySummary = ({
 }) => {
   const updateHooks = () => {
     setViewer(0);
-    setDataF({});
+    setCustomerInfo({});
     setCart([]);
     setCartTotal(0);
   };
@@ -30,11 +30,11 @@ const MySummary = ({
               <h4 className="mb-3">Customer Information</h4>
               <div className="card bg-light">
                 <div className="card-body">
-                  <h5 className="card-title">{dataF.name}</h5>
-                  <p className="card-text mb-1">{dataF.email}</p>
-                  <p className="card-text mb-1">{dataF.address}</p>
+                  <h5 className="card-title">{customerInfo.name}</h5>
+                  <p className="card-text mb-1">{customerInfo.email}</p>
+                  <p className="card-text mb-1">{customerInfo.address}</p>
                   <p className="card-text mb-1">
-                    {dataF.city}, {dataF.state} {dataF.zip}
+                    {customerInfo.city}, {customerInfo.state} {customerInfo.zip}
                   </p>
                 </div>
               </div>
